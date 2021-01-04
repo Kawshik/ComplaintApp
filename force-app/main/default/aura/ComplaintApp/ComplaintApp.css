@@ -1,0 +1,15 @@
+.THIS{
+}
+
+.THIS .navbar{
+    
+}
+
+.THIS .register_form_container{
+    background-color:blue;
+	visibility: gone;
+}
+
+.THIS .toggle {
+    display: none;
+}

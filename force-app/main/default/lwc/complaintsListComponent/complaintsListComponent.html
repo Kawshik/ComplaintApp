@@ -1,0 +1,26 @@
+<template>
+    <div class="slds-card slds-p-around_small" title="Complaints List">    
+
+        <lightning-combobox
+            name="Sort"
+            label="Sort By"
+            value={sortCriteria}
+            placeholder="Select Sorting Criteria"
+            options={sortOptions}
+            onchange={handleSortCriteriaChange} ></lightning-combobox>
+        <br/>
+        <lightning-combobox
+            name="Filter"
+            label="Filter By"
+            placeholder="Select Filter Criteria"
+            options={filterOptions}
+            onchange={handleFilterCriteriaChange} ></lightning-combobox>
+        <br/>
+        <lightning-datatable
+            key-field="id"
+            data={complaintsList}
+            columns={columns}>
+        </lightning-datatable>
+
+    </div>
+</template>
