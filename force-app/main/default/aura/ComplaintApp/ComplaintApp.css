@@ -13,3 +13,16 @@
 .THIS .toggle {
     display: none;
 }
+
+.THIS .arrow{
+    
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.4s;
+} 
+
+.THIS .arrow-down{
+    transform: rotate(90deg); 
+}

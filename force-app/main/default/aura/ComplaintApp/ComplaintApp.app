@@ -1,4 +1,4 @@
-<aura:application controller="ComplaintsAppController" extends="force:slds">
+<aura:application controller="ComplaintsAppController" extends="force:slds" access="global">
     <aura:attribute name="userId" type="String"/>
     <aura:attribute name="userName" type="String" />
     <aura:attribute name="customer" type="Customer__c" />
@@ -13,10 +13,11 @@
             </div>
             <div class="nav-right slds-col"> 
                 Welcome, {!v.userName}
-                <button class="logout-btn" aura:id="logout_btn" onclick="{!c.logout}">Logout</button>
-                <button class="register-btn" aura:id="register_btn" onclick="{!c.showRegister}">Register</button>
-                <button class="history-btn" aura:id="history_btn">Show History</button>
-                <button class="login-btn" aura:id="login_btn" onclick="{!c.showLogin}">Login</button>
+                <button class="slds-button slds-button_destructive" aura:id="logout_btn" onclick="{!c.logout}">Logout</button>
+                <button class="register-btn slds-button slds-button_success" aura:id="register_btn" onclick="{!c.showRegister}">Register</button>
+                <button class="history-btn slds-button slds-button_brand" aura:id="history_btn" onclick="{!c.showHistory}">Show History</button>
+                <button class="login-btn slds-button slds-button_success" aura:id="login_btn" onclick="{!c.showLogin}">Login</button>
+                <button class="complaint-btn slds-button slds-button_inverse" aura:id="complaint_btn" onclick="{!c.showComplaintForm}">Make a Complaint</button>
             </div>
         </div>
     </div>
@@ -29,7 +30,7 @@
     <!--Login Form-->
     
     <div class="login-form-container" aura:id="login_form">
-        <h1>Login Form</h1>
+        <h1 class="slds-text-heading_medium">Login Form</h1>
         <form class="slds-form-element">
             <lightning:input label="Username" type="text" aura:id="text-login-username" placeholder="Enter your Username" required="true" value="{!v.username_value}" />
 
@@ -40,12 +41,13 @@
         <h1>{!v.errorMsg}</h1>
     </div>
     
+    
     <!--Register Form-->
     <aura:attribute name="register_fullname" type="String" />
     <aura:attribute name="register_phone" type="String" />
     
     <div class="register_form_container" aura:id="register_form">
-        <h1>Register Form</h1>
+        <h1 class="slds-text-heading_medium">Register Form</h1>
         <form class="slds-form-element">
             <lightning:input label="Full Name" type="text" aura:id="text-register-fullname" placeholder="Enter your Full Name" required="true" value="{!v.register_fullname}" />
             <lightning:input label="Username" type="text" aura:id="text-register-username" placeholder="Enter your Username" required="true" value="{!v.username_value}" />
@@ -65,7 +67,7 @@
     <aura:attribute name="sub_category" type="String" />
     
     <div class="complaint_form_container" aura:id="complaint_form">
-        <h1>Complaint Form</h1>
+        <h1 class="slds-text-heading_medium">Complaint Form</h1>
         <form>
             <lightning:input label="Complaint Title" type="text" aura:id="text-complaint-title" placeholder="Enter Complaint Title" required="true" value="{!v.title}"/>
             <lightning:textarea label="Complaint Description" type="text" aura:id="text-complaint-title" placeholder="Enter Complaint Title" required="true" value="{!v.description}"/>
@@ -102,9 +104,47 @@
 		</form>
     </div>
     
-    
-    
     <!--Complaint History-->
-    <c:ComplaintForm/>
-    
+    <aura:attribute name="complaintList" type="Customer__c[]"></aura:attribute>
+    <div class="complaint_history_container" aura:id="complaint_container">
+        <h1 class="slds-text-heading_large">Complaint History</h1>        
+        <!--<div class="arrow" onclick="{!c.toggleComplaintDetails}" aura:id="complaint_toggle_btn">></div>-->
+    	<div class="slds-p-left_large">
+        <aura:iteration items="{!v.complaintList}" var="complaint">
+            <hr/>
+            <div class="slds-grid slds-grid_align-spread">
+                <div class="slds-col slds-size_2-of-3">
+                    <span><h1 class="slds-text-heading_medium">{!complaint.Name}</h1></span>
+                </div>
+                <div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+                    <span>
+                        <aura:if  isTrue="{! (complaint.Status__c=='Open')?true:false}" >
+                            <span class="slds-badge slds-theme_warning">{!complaint.Status__c}</span>
+                        </aura:if>
+                        <aura:if  isTrue="{! (complaint.Status__c=='Processing')?true:false}" >
+                            <span class="slds-badge slds-theme_success">{!complaint.Status__c}</span>
+                        </aura:if>
+                        <aura:if  isTrue="{! (complaint.Status__c=='Cancelled')?true:false}" >
+                            <span class="slds-badge slds-theme_error">{!complaint.Status__c}</span>
+                        </aura:if>
+                        <aura:if  isTrue="{! (complaint.Status__c=='Closed')?true:false}" >
+                            <span class="slds-badge slds-badge_inverse">{!complaint.Status__c}</span>
+                        </aura:if>
+                    </span>
+                </div>
+            </div>
+            
+            <h1>Description: {!complaint.Description__c}</h1>
+            
+            <div class="slds-grid slds-gutters">
+              <div class="slds-col">
+                <span><h1>Category: {!complaint.Main_Category_Dump__c}</h1></span>
+              </div>
+              <div class="slds-col">
+                <span><h1>Ticket Id: {!complaint.Ticket_Id__c}</h1></span>
+              </div>
+            </div>   
+    	</aura:iteration>
+       </div> 
+    </div>
 </aura:application>

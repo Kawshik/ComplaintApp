@@ -8,6 +8,8 @@
             $A.util.addClass(component.find("history_btn"), "slds-hide");
             $A.util.addClass(component.find("login_btn"), "slds-hide");
             $A.util.addClass(component.find("complaint_form"), "slds-hide");
+            $A.util.addClass(component.find("complaint_btn"), "slds-hide");
+            $A.util.addClass(component.find("complaint_container"), "slds-hide");
         }
     },
     
@@ -28,11 +30,14 @@
     register : function(component, event, helper) {
         var email = component.find("text-register-email").get("v.value");
         var username = component.find("text-register-username").get("v.value");
+        var fullName = component.find("text-register-fullname").get("v.value");
+        var phone = component.find("text-register-phone").get("v.value");
         console.log(email + username);
         if(email === undefined || username === undefined){
             component.set("v.errorMsg","Enter all the details...");
         } else {
             component.set("v.errorMsg","");
+            helper.registerCustomer(fullName, username, phone, email,component);
         }
     },
     
@@ -57,6 +62,7 @@
 		$A.util.addClass(component.find("login_form"), "slds-hide");
         $A.util.removeClass(component.find("login_btn"), "slds-hide");
         $A.util.addClass(component.find("register_btn"), "slds-hide");
+        
 	},
     
     showLogin : function(component, event, helper) {
@@ -81,7 +87,34 @@
                               component.get("v.severity"),
                               component.get("v.main_category"),
                               component.get("v.sub_category"),
-                              component)
+                              component);
 	},
+    
+    showComplaintForm : function(component, event, helper){
+        $A.util.removeClass(component.find("complaint_form"), "slds-hide");
+        $A.util.addClass(component.find("complaint_container"), "slds-hide");
+        
+        $A.util.removeClass(component.find("history_btn"), "slds-hide");
+        $A.util.addClass(component.find("login_btn"), "slds-hide");
+        $A.util.addClass(component.find("complaint_btn"), "slds-hide");
+        
+        
+    },
+    
+    showHistory : function(component, event, helper) {
+        console.log("Ran");
+        $A.util.removeClass(component.find("complaint_container"), "slds-hide");
+        helper.getComplaints(component.get("v.customer.Id"),component);
+        $A.util.addClass(component.find("complaint_form"), "slds-hide");
+        $A.util.removeClass(component.find("complaint_btn"), "slds-hide");
+        $A.util.addClass(component.find("history_btn"), "slds-hide");
+    },
+    
+    toggleComplaintDetails : function(component, event, helper){
+        var isExpanded = $A.util.hasClass(component.find("complaint_toggle_btn"), "arrow-down");
+        if(isExpanded) $A.util.removeClass(component.find("complaint_toggle_btn"), "arrow-down");
+        else $A.util.addClass(component.find("complaint_toggle_btn"), "arrow-down");
+        console.log(isExpanded);
+    }
     
 })

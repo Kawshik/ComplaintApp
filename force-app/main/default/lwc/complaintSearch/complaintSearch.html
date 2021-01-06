@@ -1,0 +1,20 @@
+<template>
+    <!-- <input type="text" id="text-input-id-1" placeholder="Placeholder text…" class="slds-input" onchange={searchKeyword}/> -->
+    <div class="slds-card">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="text-input-id-1">Search Complaints By Tickets</label>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                <lightning-icon size="x-small" icon-name="utility:search" alternative-text="Clock"></lightning-icon>
+                <input type="text" placeholder="Placeholder text…" class="slds-input" onchange={searchKeyword}/>
+            </div>
+        </div>
+
+        {complaintName}
+        <br/>
+        {complaintDescription}<br/>
+        {complaintMainCategory}<br/>
+        {complaintSubCategory}<br/>
+        {complaintStatus}<br/>
+        {complaintSeverity}
+    </div>
+</template>

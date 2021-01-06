@@ -12,7 +12,7 @@
                 var data = response.getReturnValue();
                 component.set("v.customer", data);
                 if(data === null){
-                    alert("You are not a Customer yet. Please Register...");;
+                    alert("You are not a Customer yet. Please Register...");
                     $A.util.removeClass(component.find("register_form"), "slds-hide");
                     $A.util.addClass(component.find("login_form"), "slds-hide");
                     $A.util.removeClass(component.find("login_btn"), "slds-hide");
@@ -47,6 +47,45 @@
            var state = response.getState();
             if(state === "SUCCESS"){
                 alert("A Complaint with Ticket Id "+response.getReturnValue() + " has been created.");
+            } else {
+                alert("An error has occured...");
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    
+    registerCustomer : function(fullName, username, phone, email,component){
+        var action = component.get("c.createCustomers");
+        action.setParams({
+            "fullName":fullName.toString(),
+            "username":username.toString(),
+            "phone":phone.toString(),
+            "email":email.toString()
+        });
+        
+        action.setCallback(this,function(response){
+           var state = response.getState();
+            if(state === "SUCCESS"){
+                alert(response.getReturnValue());
+            } else {
+                alert("An error has occured...");
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    
+    getComplaints : function (userId,component){
+        var action = component.get("c.getComplaintHistoryByUser");
+        action.setParams({
+            "userId":userId.toString()
+        });
+        
+        action.setCallback(this,function(response){
+           var state = response.getState();
+            if(state === "SUCCESS"){ 
+                var data = response.getReturnValue();
+                component.set("v.complaintList", data);
+                alert("response recieved..");
             } else {
                 alert("An error has occured...");
             }
