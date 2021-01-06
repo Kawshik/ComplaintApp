@@ -1,0 +1,40 @@
+<aura:component controller="ComplaintsAppController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:attribute name="search" type="String"/>
+    <aura:attribute name="complaint" type="Complaint__c"/>
+    <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
+    <div class="slds-card">
+        <form class="slds-form-element">
+            <div class="navbar slds-grid slds-p-around_small">
+                <div class="nav-left slds-col slds-size_2-of-3">
+                    <lightning:input type="text" aura:id="search" label="Search Complaints By Ticket Id" placeholder="Search..." required="true" value="{!v.search}" />
+                </div>
+                <div class="nav-right slds-col slds-size_1-of-3"> 
+                    <lightning:input value="Search" type="submit" aura:id="text-input-submit" onclick="{!c.search}"/>
+                </div>
+            </div>
+        </form>
+        
+        <article class="slds-card slds-p-around_small" aura:id="search-result">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-account" title="account">
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+                    <span>{!v.complaint.Name}</span>
+                </h2>
+              </div>
+            </header>
+            
+            <div class="slds-card__body slds-card__body_inner">
+                Description: {!v.complaint.Description__c}<br/>
+                Main Category: {!v.complaint.Main_Category_Dump__c}<br/>
+                Sub Category:  {!v.complaint.Sub_Category_Dump__c}<br/>
+                Status: {!v.complaint.Status__c}<br/>
+                Severity: {!v.complaint.Severity__c}<br/>
+            </div>
+            
+        </article>
+	</div>
+</aura:component>
